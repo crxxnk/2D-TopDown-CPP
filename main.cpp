@@ -6,14 +6,7 @@
 
 int main()
 {
-	Init(1280, 800);
-
-	while (running)
-	{
-		Input();
-		Update();
-		Render();
-	}
+	Run();
 
 	Quit();
 	return 0;
