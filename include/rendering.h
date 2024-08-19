@@ -1,13 +1,14 @@
 #pragma once
+#include <raylib.h>
 #include "textures.h"
 #include "input.h"
-#include <raylib.h>
+
+int frameCount{};
 
 void Update(){
 	running = !WindowShouldClose();
 
-	playerSrc.x = 0;
-
+	playerSrc.x = playerSrc.width * float(playerFrame);
 	if(playerMoving)
 	{
 		if(playerUp) {playerDest.y-=playerSpeed;}
@@ -16,12 +17,16 @@ void Update(){
 		if(playerRight) {playerDest.x+=playerSpeed;}
 		if(frameCount % 8 == 1)
 			playerFrame++;
-		playerSrc.x = playerSrc.width * float(playerFrame);
-	}
+	} else if (frameCount % 45 == 1)
+		playerFrame++;
 
 	frameCount++;
 	if(playerFrame > 3)
 		playerFrame = 0;
+	if(!playerMoving && playerFrame > 1)
+		playerFrame = 0;
+
+	playerSrc.x = playerSrc.width * float(playerFrame);
 	playerSrc.y = playerSrc.height * float(playerDir);
 
 	camera.target = Vector2{float(playerDest.x-(playerDest.width/2)), float(playerDest.y-(playerDest.height/2))};
